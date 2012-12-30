@@ -2,13 +2,11 @@ package com.nietky.librarythingbrowser;
 
 import android.app.Activity;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
 import com.nietky.librarythingbrowser.dummy.DummyContent;
 
@@ -18,6 +16,9 @@ public class BookListFragment extends ListFragment {
 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
+    private Cursor cursor;
+    private DbAdapter dbAdapter;
+    private SimpleCursorAdapter adapter;
 
     public interface Callbacks {
 
@@ -35,35 +36,22 @@ public class BookListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TestAdapter mDbHelper = new TestAdapter(getActivity());        
-        mDbHelper.createDatabase();      
-        mDbHelper.open();
-
-        Cursor testdata = mDbHelper.getTestData();
         
+        dbAdapter = new DbAdapter(getActivity());
+        dbAdapter.createDb();        
+        dbAdapter.createDb();      
+        dbAdapter.openDb();
+        cursor = dbAdapter.getAllData();
+        dbAdapter.close();
         
-        mDbHelper.close();
-//        
-//        DataBaseHelper dbHelper = new DataBaseHelper(getActivity());
-//        dbHelper.openDataBase();
-//        SQLiteDatabase database = dbHelper.getWritableDatabase();
-////        database.query(distinct, table, columns, selection, selectionArgs, groupBy, having, orderBy, limit, cancellationSignal)
-////        database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy)
-////        database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit)
-//        Cursor c = database.query("books", new String[] {"_id", "title"}, 
-//                                  null, null, null, null, "_id");
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+        adapter = new SimpleCursorAdapter(
                 getActivity(), 
                 android.R.layout.simple_list_item_1,
-                testdata, 
+                cursor, 
                 new String[] {"title"},
                 new int[] {android.R.id.text1},
                 1);
         setListAdapter(adapter);
-//        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-//                R.layout.simple_list_item_activated_1,
-//                R.id.text1,
-//                DummyContent.ITEMS));
     }
 
     @Override
@@ -94,7 +82,7 @@ public class BookListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(String.valueOf(position));
     }
 
     @Override

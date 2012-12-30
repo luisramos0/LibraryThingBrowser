@@ -7,31 +7,31 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class TestAdapter {
-    protected static final String TAG = "DataAdapter";
+public class DbAdapter {
+    protected static final String TAG = "DbAdapter";
 
     private final Context mContext;
     private SQLiteDatabase mDb;
-    private DataBaseHelper mDbHelper;
+    private DbHelper mDbHelper;
 
-    public TestAdapter(Context context) {
+    public DbAdapter(Context context) {
         this.mContext = context;
-        mDbHelper = new DataBaseHelper(mContext);
+        mDbHelper = new DbHelper(mContext);
     }
 
-    public TestAdapter createDatabase() throws SQLException {
+    public DbAdapter createDb() throws SQLException {
         try {
-            mDbHelper.createDataBase();
+            mDbHelper.createDb();
         } catch (IOException mIOException) {
-            Log.e(TAG, mIOException.toString() + "  UnableToCreateDatabase");
-            throw new Error("UnableToCreateDatabase");
+            Log.e(TAG, mIOException.toString() + "  UnableToCreateDb");
+            throw new Error("UnableToCreateDb");
         }
         return this;
     }
 
-    public TestAdapter open() throws SQLException {
+    public DbAdapter openDb() throws SQLException {
         try {
-            mDbHelper.openDataBase();
+            mDbHelper.openDb();
             mDbHelper.close();
             mDb = mDbHelper.getReadableDatabase();
         } catch (SQLException mSQLException) {
@@ -45,7 +45,7 @@ public class TestAdapter {
         mDbHelper.close();
     }
 
-    public Cursor getTestData() {
+    public Cursor getAllData() {
         try {
             String sql = "SELECT * FROM books";
 

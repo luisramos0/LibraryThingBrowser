@@ -12,48 +12,48 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class DataBaseHelper extends SQLiteOpenHelper {
-    private static String TAG = "DataBaseHelper"; // Tag just for the LogCat
+public class DbHelper extends SQLiteOpenHelper {
+    private static String TAG = "DbHelper"; // Tag just for the LogCat
                                                   // window
     // destination path (location) of our database on device
     private static String DB_PATH = "";
     private static String DB_NAME = "example";// Database name
-    private SQLiteDatabase mDataBase;
+    private SQLiteDatabase mDb;
     private final Context mContext;
 
-    public DataBaseHelper(Context context) {
+    public DbHelper(Context context) {
         super(context, DB_NAME, null, 1);// 1? its Database Version
         DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
         this.mContext = context;
     }
 
-    public void createDataBase() throws IOException {
+    public void createDb() throws IOException {
         // If database not exists copy it from the assets
 
-        boolean mDataBaseExist = checkDataBase();
-        if (!mDataBaseExist) {
+        boolean mDbExist = checkDb();
+        if (!mDbExist) {
             this.getReadableDatabase();
             this.close();
             try {
                 // Copy the database from assests
-                copyDataBase();
+                copyDb();
                 Log.e(TAG, "createDatabase database created");
             } catch (IOException mIOException) {
-                throw new Error("ErrorCopyingDataBase");
+                throw new Error("ErrorCopyingDb");
             }
         }
     }
 
     // Check that the database exists here: /data/data/your package/databases/Da
     // Name
-    private boolean checkDataBase() {
+    private boolean checkDb() {
         File dbFile = new File(DB_PATH + DB_NAME);
         // Log.v("dbFile", dbFile + "   "+ dbFile.exists());
         return dbFile.exists();
     }
 
     // Copy the database from assets
-    private void copyDataBase() throws IOException {
+    private void copyDb() throws IOException {
         InputStream mInput = mContext.getAssets().open(DB_NAME);
         String outFileName = DB_PATH + DB_NAME;
         OutputStream mOutput = new FileOutputStream(outFileName);
@@ -68,20 +68,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     // Open the database, so we can query it
-    public boolean openDataBase() throws SQLException {
+    public boolean openDb() throws SQLException {
         String mPath = DB_PATH + DB_NAME;
         // Log.v("mPath", mPath);
-        mDataBase = SQLiteDatabase.openDatabase(mPath, null,
+        mDb = SQLiteDatabase.openDatabase(mPath, null,
                 SQLiteDatabase.CREATE_IF_NECESSARY);
-        // mDataBase = SQLiteDatabase.openDatabase(mPath, null,
+        // mDb = SQLiteDatabase.openDatabase(mPath, null,
         // SQLiteDatabase.NO_LOCALIZED_COLLATORS);
-        return mDataBase != null;
+        return mDb != null;
     }
 
     @Override
     public synchronized void close() {
-        if (mDataBase != null)
-            mDataBase.close();
+        if (mDb != null)
+            mDb.close();
         super.close();
     }
 
