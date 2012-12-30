@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">LibraryThingBrowser</string>
+    <string name="title_book_detail">Book Detail</string>
+    <string name="title_book_list">Books</string>
+
+</resources>
