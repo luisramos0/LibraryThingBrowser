@@ -1,0 +1,7 @@
+LibraryThingBrowser
+
+A simple offline browser for LibraryThing users. You use it by exporting your
+library from the LibraryThing website as a tab-delimited text file, and then
+loading that file with this program on your phone and tablet.
+
+It is very experimental.
