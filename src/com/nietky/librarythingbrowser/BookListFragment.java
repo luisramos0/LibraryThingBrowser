@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import com.nietky.librarythingbrowser.dummy.DummyContent;
-
 public class BookListFragment extends ListFragment {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
@@ -46,10 +44,11 @@ public class BookListFragment extends ListFragment {
         
         adapter = new SimpleCursorAdapter(
                 getActivity(), 
-                android.R.layout.simple_list_item_1,
+                R.layout.book_list_item,
                 cursor, 
-                new String[] {"title"},
-                new int[] {android.R.id.text1},
+                new String[] {"title", "author2"},
+                new int[] {R.id.book_list_item_title,
+                           R.id.book_list_item_subtitle},
                 1);
         setListAdapter(adapter);
     }
