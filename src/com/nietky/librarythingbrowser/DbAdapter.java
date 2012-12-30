@@ -45,9 +45,9 @@ public class DbAdapter {
         mDbHelper.close();
     }
 
-    public Cursor getAllData() {
+    public Cursor getAllData(String tableName, String columnName, String search) {
         try {
-            String sql = "SELECT * FROM books";
+            String sql = "SELECT * FROM " + tableName + " WHERE " + columnName + " LIKE '%" + search + "%' ORDER BY " + columnName;
 
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur != null) {
@@ -58,5 +58,11 @@ public class DbAdapter {
             Log.e(TAG, "getTestData >>" + mSQLException.toString());
             throw mSQLException;
         }
+    }
+    
+    public Cursor getRow(String tableName, String id) {
+        String sql = "SELECT * FROM " + tableName + " WHERE _id='" + id + "'";
+        Cursor mCur = mDb.rawQuery(sql, null);
+        return mCur;
     }
 }

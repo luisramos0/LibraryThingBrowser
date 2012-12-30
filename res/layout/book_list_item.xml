@@ -10,8 +10,7 @@
         android:id="@+id/book_list_item_title"
         style="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp" />
+        android:layout_height="wrap_content" />
 
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,7 +18,6 @@
         android:id="@+id/book_list_item_subtitle"
         style="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

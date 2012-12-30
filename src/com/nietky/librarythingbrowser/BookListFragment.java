@@ -4,11 +4,17 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 
-public class BookListFragment extends ListFragment {
+public class BookListFragment extends ListFragment implements OnQueryTextListener {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
@@ -17,6 +23,7 @@ public class BookListFragment extends ListFragment {
     private Cursor cursor;
     private DbAdapter dbAdapter;
     private SimpleCursorAdapter adapter;
+    private String mCurFilter = "%";
 
     public interface Callbacks {
 
@@ -32,33 +39,40 @@ public class BookListFragment extends ListFragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadList();
+    }
         
+    public void loadList() {
         dbAdapter = new DbAdapter(getActivity());
-        dbAdapter.createDb();        
-        dbAdapter.createDb();      
+        dbAdapter.createDb();
+        dbAdapter.createDb();
         dbAdapter.openDb();
-        cursor = dbAdapter.getAllData();
+        String columnName = "title";
+        cursor = dbAdapter.getAllData("books", columnName, mCurFilter);
         dbAdapter.close();
-        
-        adapter = new SimpleCursorAdapter(
-                getActivity(), 
-                R.layout.book_list_item,
-                cursor, 
-                new String[] {"title", "author2"},
-                new int[] {R.id.book_list_item_title,
-                           R.id.book_list_item_subtitle},
-                1);
+
+        adapter = new SimpleCursorAdapter(getActivity(),
+                R.layout.book_list_item, cursor, new String[] { "title",
+                        "author2" }, new int[] { R.id.book_list_item_title,
+                        R.id.book_list_item_subtitle }, 1);
         setListAdapter(adapter);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (savedInstanceState != null && savedInstanceState
-                .containsKey(STATE_ACTIVATED_POSITION)) {
-            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
+            setActivatedPosition(savedInstanceState
+                    .getInt(STATE_ACTIVATED_POSITION));
         }
     }
 
@@ -66,7 +80,8 @@ public class BookListFragment extends ListFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (!(activity instanceof Callbacks)) {
-            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+            throw new IllegalStateException(
+                    "Activity must implement fragment's callbacks.");
         }
 
         mCallbacks = (Callbacks) activity;
@@ -79,9 +94,12 @@ public class BookListFragment extends ListFragment {
     }
 
     @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
+    public void onListItemClick(ListView listView, View view, int position,
+            long id) {
         super.onListItemClick(listView, view, position, id);
-        mCallbacks.onItemSelected(String.valueOf(position));
+        cursor.moveToPosition(position);
+        String _id = cursor.getString(cursor.getColumnIndex("_id"));
+        mCallbacks.onItemSelected(_id);
     }
 
     @Override
@@ -93,9 +111,9 @@ public class BookListFragment extends ListFragment {
     }
 
     public void setActivateOnItemClick(boolean activateOnItemClick) {
-        getListView().setChoiceMode(activateOnItemClick
-                ? ListView.CHOICE_MODE_SINGLE
-                : ListView.CHOICE_MODE_NONE);
+        getListView().setChoiceMode(
+                activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
+                        : ListView.CHOICE_MODE_NONE);
     }
 
     public void setActivatedPosition(int position) {
@@ -106,5 +124,34 @@ public class BookListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Place an action bar item for searching.
+        getActivity().getMenuInflater().inflate(R.menu.options, menu);
+//        MenuItem item = menu.add("Search");
+        MenuItem item = menu.findItem(R.id.menuSearch);
+//        item.setIcon(android.R.drawable.ic_menu_search);
+//        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        SearchView sv = new SearchView(getActivity());
+        sv.setOnQueryTextListener(this);
+        item.setActionView(sv);
+        
+    }
+    
+    public boolean onQueryTextChange(String newText) {
+        // Called when the action bar search text has changed.  Update
+        // the search filter, and restart the loader to do a new query
+        // with this filter.
+        mCurFilter = !TextUtils.isEmpty(newText) ? newText : "%";
+        loadList();
+//        getLoaderManager().restartLoader(0, null, this);
+        return true;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+        // Don't care about this.
+        return true;
     }
 }

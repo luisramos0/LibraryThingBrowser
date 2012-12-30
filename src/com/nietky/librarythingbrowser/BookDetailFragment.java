@@ -31,17 +31,17 @@ public class BookDetailFragment extends Fragment {
         }
         dbAdapter = new DbAdapter(getActivity());
         dbAdapter.createDb();        
-        dbAdapter.createDb();      
         dbAdapter.openDb();
-        cursor = dbAdapter.getAllData();
-        dbAdapter.close();
+        cursor = dbAdapter.getRow("books", id);
+        cursor.moveToFirst();
+        Log.d(TAG, "getting Row id=" + id);
         
-        int position = Integer.valueOf(id);
-        Log.d(TAG, "position=" + position);
-        cursor.moveToPosition(position);
         int index = cursor.getColumnIndex("author1");
         Log.d(TAG, "index=" + index);
+        
         author = cursor.getString(index);
+        dbAdapter.close();
+        Log.d(TAG, "index=" + index);
         Log.d(TAG, "author=" + author);
         
     }
