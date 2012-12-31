@@ -4,9 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="17" />
+    <uses-sdk android:minSdkVersion="3" />
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -38,6 +36,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nietky.librarythingbrowser.BookListActivity" />
+        </activity>
+        <activity
+            android:name="com.nietky.librarythingbrowser.ImportData"
+            android:label="@string/title_activity_import_data" >
+            <intent-filter
+               android:label="LibraryThingBrowser import" >
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.ms-excel" />
+                
+			</intent-filter>
         </activity>
     </application>
 
