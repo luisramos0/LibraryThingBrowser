@@ -40,13 +40,14 @@
         <activity
             android:name="com.nietky.librarythingbrowser.ImportData"
             android:label="@string/title_activity_import_data" >
-            <intent-filter
-               android:label="LibraryThingBrowser import" >
+            <intent-filter android:label="LibraryThingBrowser import" >
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="application/vnd.ms-excel" />
-                
-			</intent-filter>
+
+                <data android:mimeType="application/*" />
+                <data android:mimeType="text/*" />
+            </intent-filter>
         </activity>
     </application>
 
