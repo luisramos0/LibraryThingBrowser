@@ -1,10 +1,14 @@
 package com.nietky.librarythingbrowser;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,7 +18,8 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 
-public class BookListFragment extends ListFragment implements OnQueryTextListener {
+public class BookListFragment extends ListFragment implements
+        OnQueryTextListener {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
@@ -25,6 +30,9 @@ public class BookListFragment extends ListFragment implements OnQueryTextListene
     private SimpleCursorAdapter adapter;
     private String mCurFilter = "%";
 
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor prefsEdit;
+    
     public interface Callbacks {
 
         public void onItemSelected(String id);
@@ -47,16 +55,17 @@ public class BookListFragment extends ListFragment implements OnQueryTextListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         loadList();
     }
-        
+
     public void loadList() {
         dbAdapter = new DbAdapter(getActivity());
         dbAdapter.createDb();
         dbAdapter.createDb();
         dbAdapter.openDb();
         String columnName = "title";
-        cursor = dbAdapter.getAllData("books", columnName, mCurFilter);
+        cursor = dbAdapter.searchAllCols("books", mCurFilter, columnName);
         dbAdapter.close();
 
         adapter = new SimpleCursorAdapter(getActivity(),
@@ -130,23 +139,42 @@ public class BookListFragment extends ListFragment implements OnQueryTextListene
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Place an action bar item for searching.
         getActivity().getMenuInflater().inflate(R.menu.options, menu);
-//        MenuItem item = menu.add("Search");
+        // MenuItem item = menu.add("Search");
         MenuItem item = menu.findItem(R.id.menuSearch);
-//        item.setIcon(android.R.drawable.ic_menu_search);
-//        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        // item.setIcon(android.R.drawable.ic_menu_search);
+        // item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         SearchView sv = new SearchView(getActivity());
         sv.setOnQueryTextListener(this);
         item.setActionView(sv);
-        
+        //
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.menu_preferences:
+            goToSettings();
+            return true;
+        case R.id.menuSearch:
+            getActivity().onSearchRequested();
+        default:
+            return false;
+        }
+    }
+
+    public void goToSettings() {
+        Log.d("blf", "opening application settings");
+        Intent i = new Intent(getActivity(), SettingsActivity.class);
+        startActivity(i);
     }
     
     public boolean onQueryTextChange(String newText) {
-        // Called when the action bar search text has changed.  Update
+        // Called when the action bar search text has changed. Update
         // the search filter, and restart the loader to do a new query
         // with this filter.
         mCurFilter = !TextUtils.isEmpty(newText) ? newText : "%";
         loadList();
-//        getLoaderManager().restartLoader(0, null, this);
+        // getLoaderManager().restartLoader(0, null, this);
         return true;
     }
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:summaryOn="Unread books are highlighted red"
+        android:summaryOff="Unread books are not specially highlighted"
+        android:enabled="true"
+        android:key="highlight_unread"
+        android:title="Highlight unread books" />
+    
+    <CheckBoxPreference
+        android:summaryOn="Searches include books' publication details"
+        android:summaryOff="Searches do not include books' publication details"
+        android:enabled="true"
+        android:key="search_publication"
+        android:title="Search publication details" />
+    
+</PreferenceScreen>

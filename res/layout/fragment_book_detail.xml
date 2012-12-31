@@ -1,8 +1,65 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="?android:attr/textAppearanceMedium"
-    android:id="@+id/book_detail"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".BookDetailFragment" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/book_detail_title"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:textStyle="italic"
+        tools:context=".BookDetailFragment" />
+
+    <TextView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/book_detail_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        tools:context=".BookDetailFragment" />
+
+    <TextView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/book_detail_publication_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        tools:context=".BookDetailFragment" />
+
+    <LinearLayout
+        android:id="@+id/book_detail_collections_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/book_detail_tags_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/book_detail_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:textSize="15sp"
+            tools:context=".BookDetailFragment" />
+        <!-- style="?android:attr/textAppearanceMedium" -->
+    </ScrollView>
+
+</LinearLayout>

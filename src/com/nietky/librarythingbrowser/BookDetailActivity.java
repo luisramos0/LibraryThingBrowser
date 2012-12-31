@@ -13,24 +13,27 @@ public class BookDetailActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        // The list on the previous view is reset to the top, whereas if you hit the "Back" button it
+        // remains in the previous location.
+        
+        // getActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
-            arguments.putString(BookDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(BookDetailFragment.ARG_ITEM_ID));
+            arguments.putString(BookDetailFragment.ARG_ITEM_ID, getIntent()
+                    .getStringExtra(BookDetailFragment.ARG_ITEM_ID));
             BookDetailFragment fragment = new BookDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.book_detail_container, fragment)
-                    .commit();
+                    .add(R.id.book_detail_container, fragment).commit();
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            NavUtils.navigateUpTo(this, new Intent(this, BookListActivity.class));
+            NavUtils.navigateUpTo(this,
+                    new Intent(this, BookListActivity.class));
             return true;
         }
 
