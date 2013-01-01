@@ -50,6 +50,7 @@ public final class R {
         public static final int activity_import_data=0x7f030003;
         public static final int book_list_item=0x7f030004;
         public static final int fragment_book_detail=0x7f030005;
+        public static final int fragment_book_list=0x7f030006;
     }
     public static final class menu {
         public static final int activity_import_data=0x7f080000;
