@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <CheckBoxPreference
+<!--     <CheckBoxPreference
         android:summaryOn="Unread books are highlighted red"
         android:summaryOff="Unread books are not specially highlighted"
         android:enabled="true"
         android:key="highlight_unread"
-        android:title="Highlight unread books" />
+        android:title="Highlight unread books" /> -->
     
     <CheckBoxPreference
         android:summaryOn="Searches include books' publication details"
@@ -14,5 +14,12 @@
         android:enabled="true"
         android:key="search_publication"
         android:title="Search publication details" />
+    
+    <Preference
+        android:title="About"
+        android:summary="Source code version 2" />
+    <Preference
+        android:title="Attribution for icon"
+        android:summary="The Noun Project, http://www.thenounproject.com" />
     
 </PreferenceScreen>

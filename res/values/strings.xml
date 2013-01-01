@@ -7,5 +7,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_import_data">ImportData</string>
+    <string name="title_activity_tag_list">Tags</string>
+    <string name="title_activity_collection_list">Collections</string>
 
 </resources>

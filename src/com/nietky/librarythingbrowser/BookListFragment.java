@@ -21,6 +21,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 
@@ -29,12 +30,17 @@ public class BookListFragment extends ListFragment implements
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     public final static String MESSAGE_TABLE_NAME = "com.nietky.librarythingbrowser.TABLE_NAME";
-
+    public static final int RESULT_TAG_SELECT = 1;
+    public static final int RESULT_COLLECTION_SELECT = 2;
+    
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
     private Cursor cursor;
     private SimpleCursorAdapter adapter;
     private String mCurFilter = "%";
+    private String tagFilter = "%";
+    private String collectionFilter = "%";
+    private String tableName = "books";
 
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor prefsEdit;
@@ -68,13 +74,56 @@ public class BookListFragment extends ListFragment implements
     }
 
     public void loadList() {
-        String tableName = "books";
         DbHelperNew dbHelper = new DbHelperNew(getActivity()
                 .getApplicationContext());
         dbHelper.open();
 
         String columnName = "title";
         cursor = dbHelper.searchAllCols(mCurFilter, columnName);
+        getActivity().setTitle(mCurFilter);
+        dbHelper.close();
+
+        adapter = new SimpleCursorAdapter(getActivity(),
+                R.layout.book_list_item, cursor, new String[] { "title",
+                        "author2" }, new int[] { R.id.book_list_item_title,
+                        R.id.book_list_item_subtitle }, 1);
+        setListAdapter(adapter);
+    }
+    
+    public void loadTag(String tag) {
+        if (tag.contains("'")) {
+            Toast.makeText(getActivity(), "filtering by terms including apostrophes is not supported yet.. sorry!", 7).show();
+            return;
+        }
+        DbHelperNew dbHelper = new DbHelperNew(getActivity()
+                .getApplicationContext());
+        dbHelper.open();
+        
+        tagFilter = tag;
+        String columnName = "title";
+        cursor = dbHelper.searchTag(tag, columnName);
+        getActivity().setTitle(tag);
+        dbHelper.close();
+
+        adapter = new SimpleCursorAdapter(getActivity(),
+                R.layout.book_list_item, cursor, new String[] { "title",
+                        "author2" }, new int[] { R.id.book_list_item_title,
+                        R.id.book_list_item_subtitle }, 1);
+        setListAdapter(adapter);
+    }
+    
+    public void loadCollection(String collection) {
+        if (collection.contains("'")) {
+            Toast.makeText(getActivity(), "filtering by terms including apostrophes is not supported yet.. sorry!", 7).show();
+            return;
+        }
+        DbHelperNew dbHelper = new DbHelperNew(getActivity()
+                .getApplicationContext());
+        dbHelper.open();
+        
+        String columnName = "title";
+        cursor = dbHelper.searchCollection(collection, columnName);
+        getActivity().setTitle(collection);
         dbHelper.close();
 
         adapter = new SimpleCursorAdapter(getActivity(),
@@ -195,6 +244,18 @@ public class BookListFragment extends ListFragment implements
 
                             }).setNegativeButton("No", null).show();
             return true;
+        case R.id.menuTags:
+            Intent intentTags = new Intent(getActivity(), TagListActivity.class);
+            intentTags.putExtra("searchFilter", mCurFilter);
+            intentTags.putExtra("tagFilter", tagFilter);
+            startActivityForResult(intentTags, RESULT_TAG_SELECT);
+            return true;
+        case R.id.menuCollections:
+            Intent intentCollections = new Intent(getActivity(), CollectionListActivity.class);
+            intentCollections.putExtra("searchFilter", mCurFilter);
+            intentCollections.putExtra("tagFilter", tagFilter);
+            startActivityForResult(intentCollections, RESULT_COLLECTION_SELECT);
+            return true;
         default:
             return false;
         }
@@ -210,6 +271,10 @@ public class BookListFragment extends ListFragment implements
         // Called when the action bar search text has changed. Update
         // the search filter, and restart the loader to do a new query
         // with this filter.
+        if (newText.contains("'")) {
+            Toast.makeText(getActivity(), "search terms cannot includes apostrophes yet.. sorry!", 7).show();
+            newText = newText.replace("'", "");
+        }
         mCurFilter = !TextUtils.isEmpty(newText) ? newText : "%";
         loadList();
         // getLoaderManager().restartLoader(0, null, this);
@@ -220,4 +285,25 @@ public class BookListFragment extends ListFragment implements
         // Don't care about this.
         return true;
     }
+    
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//      super.onActivityResult(requestCode, resultCode, data);
+//      switch(requestCode) {
+//        case (RESULT_TAG_SELECT) : {
+//          if (resultCode == Activity.RESULT_OK) {
+//            String tag = data.getStringExtra("tagName");
+//            loadTag(tag);
+//          }
+//          break;
+//        } 
+//        case (RESULT_COLLECTION_SELECT) : {
+//            if (resultCode == Activity.RESULT_OK) {
+//              String collection = data.getStringExtra("collectionName");
+//              loadCollection(collection);
+//            }
+//            break;
+//          }
+//      }
+//    }
 }

@@ -114,6 +114,38 @@ public class DbHelperNew extends SQLiteOpenHelper {
         }
     }
     
+    public Cursor searchTag(String search, String orderByColumn) {
+        try {
+            String sql = "SELECT * FROM " + TABLE + " WHERE ";
+            sql += "tags LIKE '%" + search + "%'";
+            sql += " ORDER BY " + orderByColumn;
+            Cursor cursor = Db.rawQuery(sql, null);
+            if (cursor != null) {
+                cursor.moveToNext();
+            }
+            return cursor;
+        } catch (SQLException mSQLException) {
+            Log.e(TAG, "getTestData >>" + mSQLException.toString());
+            throw mSQLException;
+        }
+    }
+    
+    public Cursor searchCollection(String search, String orderByColumn) {
+        try {
+            String sql = "SELECT * FROM " + TABLE + " WHERE ";
+            sql += "collections LIKE '%" + search + "%'";
+            sql += " ORDER BY " + orderByColumn;
+            Cursor cursor = Db.rawQuery(sql, null);
+            if (cursor != null) {
+                cursor.moveToNext();
+            }
+            return cursor;
+        } catch (SQLException mSQLException) {
+            Log.e(TAG, "getTestData >>" + mSQLException.toString());
+            throw mSQLException;
+        }
+    }
+    
     public Cursor getRow(String id) {
         String sql = "SELECT * FROM " + TABLE + " WHERE _id='" + id + "'";
         Cursor cursor = Db.rawQuery(sql, null);

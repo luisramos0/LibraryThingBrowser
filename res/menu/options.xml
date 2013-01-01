@@ -7,6 +7,16 @@
         android:showAsAction="ifRoom"
         android:title="Search" />
     <item
+        android:id="@+id/menuTags"
+        android:icon="@drawable/ic_menu_tag"
+        android:showAsAction="ifRoom"
+        android:title="Tags" />
+    <item
+        android:id="@+id/menuCollections"
+        android:icon="@drawable/ic_menu_collections"
+        android:showAsAction="ifRoom"
+        android:title="Collections" />
+    <item
         android:id="@+id/menuPreferences"
         android:icon="@drawable/ic_menu_preferences"
         android:showAsAction="ifRoom"

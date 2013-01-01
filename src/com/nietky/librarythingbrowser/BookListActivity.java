@@ -45,6 +45,12 @@ public class BookListActivity extends FragmentActivity implements
         intent = getIntent();
         if (intent.getAction() == Intent.ACTION_VIEW) {
             importData();
+        } else if (intent.hasExtra("tagName")) {
+            ((BookListFragment) getSupportFragmentManager().findFragmentById(
+                    R.id.book_list)).loadTag(intent.getStringExtra("tagName"));
+        } else if (intent.hasExtra("collectionName")) {
+            ((BookListFragment) getSupportFragmentManager().findFragmentById(
+                    R.id.book_list)).loadCollection(intent.getStringExtra("collectionName"));
         }
     }
 
@@ -100,7 +106,7 @@ public class BookListActivity extends FragmentActivity implements
     private class ImportBooksTask extends
             AsyncTask<List<String[]>, Void, String> {
         private ProgressDialog dialog;
-        
+
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(BookListActivity.this);
@@ -141,7 +147,8 @@ public class BookListActivity extends FragmentActivity implements
         @Override
         protected void onPostExecute(String result) {
             dialog.dismiss();
-            ((BookListFragment) getSupportFragmentManager().findFragmentById(R.id.book_list)).loadList();
+            ((BookListFragment) getSupportFragmentManager().findFragmentById(
+                    R.id.book_list)).loadList();
         }
     }
 

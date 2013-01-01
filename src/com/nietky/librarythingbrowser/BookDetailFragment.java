@@ -102,57 +102,57 @@ public class BookDetailFragment extends Fragment {
 
         LinearLayout ll = (LinearLayout) rootView
                 .findViewById(R.id.book_detail_tags_container);
-        String[] tag_names = fields.get("tags").split(",");
-
-        ArrayList<String> collection = new ArrayList<String>();
-        Collections.addAll(collection, tag_names);
+        ArrayList<String> tagNames = new ArrayList<String>();
+        Collections.addAll(tagNames, fields.get("tags").split(","));
 
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int maxWidth = display.getWidth() - 10;
 
-        if (collection.size() > 0) {
+        if (tagNames.size() > 0) {
             LinearLayout llAlso = new LinearLayout(getActivity());
             llAlso.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
                     LayoutParams.WRAP_CONTENT));
             llAlso.setOrientation(LinearLayout.HORIZONTAL);
 
-            TextView txtSample = new TextView(getActivity());
-            txtSample.setText("Tags:");
+            TextView tvIntro = new TextView(getActivity());
+            tvIntro.setText("Tags:");
 
-            llAlso.addView(txtSample);
-            txtSample.measure(0, 0);
+            llAlso.addView(tvIntro);
+            tvIntro.measure(0, 0);
 
-            int widthSoFar = txtSample.getMeasuredWidth();
-            for (String samItem : collection) {
-                TextView txtSamItem = new TextView(getActivity(), null,
+            int widthSoFar = tvIntro.getMeasuredWidth();
+            for (String tagText : tagNames) {
+                TextView tvTag = new TextView(getActivity(), null,
                         android.R.attr.textColorLink);
-                txtSamItem.setText(samItem);
-                txtSamItem.setTextSize(13);
-                txtSamItem.setTextColor(Color.BLACK);
-                txtSamItem.setBackgroundResource(R.drawable.rounded_edges);
-                txtSamItem.setTag(samItem);
-                txtSamItem.setOnClickListener(new OnClickListener() {
+                tvTag.setText(tagText);
+                tvTag.setTextSize(14);
+                tvTag.setTextColor(Color.BLACK);
+                tvTag.setBackgroundResource(R.drawable.rounded_edges_tag);
+                tvTag.setTag(tagText);
+                tvTag.setOnClickListener(new OnClickListener() {
                     public void onClick(View v) {
                         TextView self = (TextView) v;
-                        String ds = (String) self.getTag();
-
-                        Intent myIntent = new Intent();
-                        myIntent.putExtra("link_info", ds);
-                        Toast.makeText(getActivity(), ds, 10).show();
+                        String tagTagText = (String) self.getTag();
+//                        Toast.makeText(getActivity(), tagTagText, 10).show();
+                        Intent resultIntent = new Intent(getActivity(),
+                                BookListActivity.class);
+                        resultIntent.putExtra("tagName", tagTagText);
+                        startActivity(resultIntent);
                     }
                 });
-                
 
-                LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
+                        LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 int left_right = 5;
                 int top_bottom = 3;
-                llp.setMargins(left_right, top_bottom,
-                               left_right, top_bottom); // llp.setMargins(left, top, right, bottom);
-                txtSamItem.setLayoutParams(llp);
-                
-                txtSamItem.measure(0, 0);
-                widthSoFar += txtSamItem.getMeasuredWidth() + left_right * 2;
-                
+                llp.setMargins(left_right, top_bottom, left_right, top_bottom); // llp.setMargins(left,
+                                                                                // top,
+                                                                                // right,
+                                                                                // bottom);
+                tvTag.setLayoutParams(llp);
+
+                tvTag.measure(0, 0);
+                widthSoFar += tvTag.getMeasuredWidth() + left_right * 2;
 
                 if (widthSoFar >= maxWidth) {
                     ll.addView(llAlso);
@@ -162,17 +162,94 @@ public class BookDetailFragment extends Fragment {
                             LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
                     llAlso.setOrientation(LinearLayout.HORIZONTAL);
 
-                    llAlso.addView(txtSamItem);
-                    widthSoFar = txtSamItem.getMeasuredWidth();
+                    llAlso.addView(tvTag);
+                    widthSoFar = tvTag.getMeasuredWidth();
                 } else {
-                    
-                    llAlso.addView(txtSamItem);
+
+                    llAlso.addView(tvTag);
                 }
             }
 
             ll.addView(llAlso);
         }
 
+        
+        
+        
+        
+        LinearLayout ll2 = (LinearLayout) rootView
+                .findViewById(R.id.book_detail_collections_container);
+        ArrayList<String> collectionNames = new ArrayList<String>();
+        Collections.addAll(collectionNames, fields.get("collections").split(","));
+
+        Display display2 = getActivity().getWindowManager().getDefaultDisplay();
+        int maxWidth2 = display2.getWidth() - 10;
+
+        if (collectionNames.size() > 0) {
+            LinearLayout llAlso = new LinearLayout(getActivity());
+            llAlso.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
+                    LayoutParams.WRAP_CONTENT));
+            llAlso.setOrientation(LinearLayout.HORIZONTAL);
+
+            TextView tvIntro = new TextView(getActivity());
+            tvIntro.setText("Collections:");
+
+            llAlso.addView(tvIntro);
+            tvIntro.measure(0, 0);
+
+            int widthSoFar = tvIntro.getMeasuredWidth();
+            for (String collectionText : collectionNames) {
+                TextView tvTag = new TextView(getActivity(), null,
+                        android.R.attr.textColorLink);
+                tvTag.setText(collectionText);
+                tvTag.setTextSize(14);
+                tvTag.setTextColor(Color.BLACK);
+                tvTag.setBackgroundResource(R.drawable.rounded_edges_collection);
+                tvTag.setTag(collectionText);
+                tvTag.setOnClickListener(new OnClickListener() {
+                    public void onClick(View v) {
+                        TextView self = (TextView) v;
+                        String collectionTagText = (String) self.getTag();
+//                        Toast.makeText(getActivity(), collectionTagText, 10).show();
+                        Intent resultIntent = new Intent(getActivity(),
+                                BookListActivity.class);
+                        resultIntent.putExtra("collectionName", collectionTagText);
+                        startActivity(resultIntent);
+                    }
+                });
+
+                LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
+                        LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                int left_right = 5;
+                int top_bottom = 3;
+                llp.setMargins(left_right, top_bottom, left_right, top_bottom); // llp.setMargins(left,
+                                                                                // top,
+                                                                                // right,
+                                                                                // bottom);
+                tvTag.setLayoutParams(llp);
+
+                tvTag.measure(0, 0);
+                widthSoFar += tvTag.getMeasuredWidth() + left_right * 2;
+
+                if (widthSoFar >= maxWidth) {
+                    ll.addView(llAlso);
+
+                    llAlso = new LinearLayout(getActivity());
+                    llAlso.setLayoutParams(new LayoutParams(
+                            LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+                    llAlso.setOrientation(LinearLayout.HORIZONTAL);
+
+                    llAlso.addView(tvTag);
+                    widthSoFar = tvTag.getMeasuredWidth();
+                } else {
+
+                    llAlso.addView(tvTag);
+                }
+            }
+
+            ll2.addView(llAlso);
+        }
+        
         TextView review_view = (TextView) rootView
                 .findViewById(R.id.book_detail_review);
         review_view.setText(Html.fromHtml("<p><b>Review:</b> "

@@ -31,16 +31,16 @@ public class SettingsActivity extends Activity  {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                // This is called when the Home (Up) button is pressed
-                // in the Action Bar.
-                Intent parentActivityIntent = new Intent(this, BookListActivity.class);
-                parentActivityIntent.addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                        Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(parentActivityIntent);
-                finish();
-                return true;
+//            case android.R.id.home:
+//                // This is called when the Home (Up) button is pressed
+//                // in the Action Bar.
+//                Intent parentActivityIntent = new Intent(this, BookListActivity.class);
+//                parentActivityIntent.addFlags(
+//                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
+//                        Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(parentActivityIntent);
+//                finish();
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
