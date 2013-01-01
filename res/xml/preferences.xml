@@ -17,7 +17,7 @@
     
     <Preference
         android:title="About"
-        android:summary="Source code version 2" />
+        android:summary="Source code version 3" />
     <Preference
         android:title="Attribution for icon"
         android:summary="The Noun Project, http://www.thenounproject.com" />
