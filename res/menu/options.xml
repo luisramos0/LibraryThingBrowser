@@ -7,10 +7,16 @@
         android:showAsAction="ifRoom"
         android:title="Search" />
     <item
-        android:id="@+id/menu_preferences"
+        android:id="@+id/menuPreferences"
         android:icon="@drawable/ic_menu_preferences"
         android:showAsAction="ifRoom"
         android:title="Preferences" />
+    
+    <item
+        android:id="@+id/menuDelete"
+        android:icon="@drawable/ic_menu_delete"
+        android:showAsAction="ifRoom"
+        android:title="Delete" />
     <!-- <item
         android:id="@+id/menuSort"
         android:icon="@drawable/ic_menu_sort_by_size"

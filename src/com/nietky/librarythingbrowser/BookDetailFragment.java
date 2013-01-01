@@ -27,7 +27,6 @@ public class BookDetailFragment extends Fragment {
     public static final String TAG = "BookDetailFragment";
 
     private String id;
-    private DbAdapter dbAdapter;
     private Cursor cursor;
 
     private HashMap<String, String> fields;
@@ -41,10 +40,10 @@ public class BookDetailFragment extends Fragment {
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             id = getArguments().getString(ARG_ITEM_ID);
         }
-        dbAdapter = new DbAdapter(getActivity());
-        dbAdapter.createDb();
-        dbAdapter.openDb();
-        cursor = dbAdapter.getRow("books", id);
+        DbHelperNew dbHelper = new DbHelperNew(getActivity()
+                .getApplicationContext());
+        dbHelper.open();
+        cursor = dbHelper.getRow(id);
         cursor.moveToFirst();
         Log.d(TAG, "getting Row id=" + id);
 
@@ -68,8 +67,7 @@ public class BookDetailFragment extends Fragment {
             content = content.replace("[return]", "\n");
             fields.put(fieldname, content);
         }
-
-        dbAdapter.close();
+        dbHelper.close();
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.nietky.librarythingbrowser;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -13,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -22,17 +26,17 @@ public class BookListFragment extends ListFragment implements
         OnQueryTextListener {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    public final static String MESSAGE_TABLE_NAME = "com.nietky.librarythingbrowser.TABLE_NAME";
 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
     private Cursor cursor;
-    private DbAdapter dbAdapter;
     private SimpleCursorAdapter adapter;
     private String mCurFilter = "%";
 
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor prefsEdit;
-    
+
     public interface Callbacks {
 
         public void onItemSelected(String id);
@@ -55,18 +59,21 @@ public class BookListFragment extends ListFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        sharedPref = PreferenceManager
+                .getDefaultSharedPreferences(getActivity()
+                        .getApplicationContext());
         loadList();
     }
 
     public void loadList() {
-        dbAdapter = new DbAdapter(getActivity());
-        dbAdapter.createDb();
-        dbAdapter.createDb();
-        dbAdapter.openDb();
+        String tableName = "books";
+        DbHelperNew dbHelper = new DbHelperNew(getActivity()
+                .getApplicationContext());
+        dbHelper.open();
+
         String columnName = "title";
-        cursor = dbAdapter.searchAllCols("books", mCurFilter, columnName);
-        dbAdapter.close();
+        cursor = dbHelper.searchAllCols(mCurFilter, columnName);
+        dbHelper.close();
 
         adapter = new SimpleCursorAdapter(getActivity(),
                 R.layout.book_list_item, cursor, new String[] { "title",
@@ -114,19 +121,19 @@ public class BookListFragment extends ListFragment implements
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mActivatedPosition != ListView.INVALID_POSITION) {
+        if (mActivatedPosition != AdapterView.INVALID_POSITION) {
             outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
         }
     }
 
     public void setActivateOnItemClick(boolean activateOnItemClick) {
         getListView().setChoiceMode(
-                activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
-                        : ListView.CHOICE_MODE_NONE);
+                activateOnItemClick ? AbsListView.CHOICE_MODE_SINGLE
+                        : AbsListView.CHOICE_MODE_NONE);
     }
 
     public void setActivatedPosition(int position) {
-        if (position == ListView.INVALID_POSITION) {
+        if (position == AdapterView.INVALID_POSITION) {
             getListView().setItemChecked(mActivatedPosition, false);
         } else {
             getListView().setItemChecked(position, true);
@@ -152,22 +159,43 @@ public class BookListFragment extends ListFragment implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.menu_preferences:
-            goToSettings();
+        case R.id.menuPreferences:
+            goToPreferences();
             return true;
         case R.id.menuSearch:
             getActivity().onSearchRequested();
+            return true;
+        case R.id.menuDelete:
+            AlertDialog show = new AlertDialog.Builder(getActivity())
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Delete books")
+                    .setMessage(
+                            "Are you sure you want to delete all your books?\n\n(This is only for data imported into LibraryThing Browser on your device, and cannot affect your LibraryThing account).")
+                    .setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                        int which) {
+                                    String tableName = "books";
+                                    DbHelperNew dbHelper = new DbHelperNew(
+                                            getActivity()
+                                                    .getApplicationContext());
+                                    dbHelper.delete();
+                                    loadList();
+                                }
+
+                            }).setNegativeButton("No", null).show();
+            return true;
         default:
             return false;
         }
     }
 
-    public void goToSettings() {
+    public void goToPreferences() {
         Log.d("blf", "opening application settings");
         Intent i = new Intent(getActivity(), SettingsActivity.class);
         startActivity(i);
     }
-    
+
     public boolean onQueryTextChange(String newText) {
         // Called when the action bar search text has changed. Update
         // the search filter, and restart the loader to do a new query
