@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-<!--     <CheckBoxPreference
+    <!--
+         <CheckBoxPreference
         android:summaryOn="Unread books are highlighted red"
         android:summaryOff="Unread books are not specially highlighted"
         android:enabled="true"
         android:key="highlight_unread"
-        android:title="Highlight unread books" /> -->
-    
+        android:title="Highlight unread books" />
+    -->
+
     <CheckBoxPreference
-        android:summaryOn="Searches include books' publication details"
-        android:summaryOff="Searches do not include books' publication details"
         android:enabled="true"
         android:key="search_publication"
+        android:summaryOff="Searches do not include books&apos; publication details"
+        android:summaryOn="Searches include books&apos; publication details"
         android:title="Search publication details" />
-    
+
     <Preference
-        android:title="About"
-        android:summary="Source code version 3" />
-    <Preference
-        android:title="Attribution for icon"
-        android:summary="The Noun Project, http://www.thenounproject.com" />
-    
+        android:summary="Not affiliated with the LibraryThing website (http://www.librarything.com) in any way."
+        android:title="Version 1.0.5" />
+
+    <PreferenceCategory android:title="Attributions for included work" >
+        <Preference
+            android:summary="Apache Licence 2.0"
+            android:title="jCSV" />
+        <Preference
+            android:summary="The Noun Project (http://www.thenounproject.com)"
+            android:title="Launcher icon" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
