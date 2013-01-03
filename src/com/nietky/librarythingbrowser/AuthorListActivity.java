@@ -12,16 +12,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class TagListActivity extends Activity {
-    ArrayList<String> tags;
+public class AuthorListActivity extends Activity {
+    ArrayList<String> authors;
     ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tag_list);
+        setContentView(R.layout.activity_author_list);
 
-        listView = (ListView) findViewById(R.id.tagListView);
+        listView = (ListView) findViewById(R.id.authorListView);
 
         Intent intent = getIntent();
         String searchFilter = intent.getStringExtra("searchFilter");
@@ -31,20 +31,20 @@ public class TagListActivity extends Activity {
         String columnName = "title";
         Cursor cursor = dbHelper.searchAllCols(searchFilter, columnName);
 
-        tags = CursorTags.getTags(cursor);
-        Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
+        authors = CursorTags.getAuthors1(cursor);
+        Collections.sort(authors, String.CASE_INSENSITIVE_ORDER);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, tags);
+                android.R.layout.simple_list_item_1, authors);
 
         listView.setAdapter(adapter);
-        setTitle("Tags (" + tags.size() + "):");
+        setTitle("Authors (" + authors.size() + "):");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
-                String tag = tags.get(position);
+                String author = authors.get(position);
                 Intent resultIntent = new Intent(parent.getContext(), BookListActivity.class);
-                resultIntent.putExtra("tagName", tag);
+                resultIntent.putExtra("author1Name", author);
                 startActivity(resultIntent);
             }
         });

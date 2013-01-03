@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nietky.librarythingbrowser"
-    android:versionCode="5"
-    android:versionName="1.0" >
+    android:versionCode="6"
+    android:versionName="1.1" >
 
-    <uses-sdk android:minSdkVersion="4" />
+    <uses-sdk android:minSdkVersion="11" />
 
     <application
         android:icon="@drawable/icon2"
@@ -68,6 +68,14 @@
         <activity
             android:name="com.nietky.librarythingbrowser.CollectionListActivity"
             android:label="@string/title_activity_collection_list"
+            android:parentActivityName="BookListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="BookListActivity" />
+        </activity>
+        <activity
+            android:name="com.nietky.librarythingbrowser.AuthorListActivity"
+            android:label="@string/title_activity_author_list"
             android:parentActivityName="BookListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

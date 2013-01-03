@@ -17,6 +17,11 @@
         android:showAsAction="ifRoom"
         android:title="Collections" />
     <item
+        android:id="@+id/menuAuthors"
+        android:icon="@drawable/ic_menu_authors"
+        android:showAsAction="ifRoom"
+        android:title="Authors" />
+    <item
         android:id="@+id/menuPreferences"
         android:icon="@drawable/ic_menu_preferences"
         android:showAsAction="ifRoom"

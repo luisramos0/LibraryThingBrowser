@@ -146,6 +146,23 @@ public class DbHelperNew extends SQLiteOpenHelper {
         }
     }
     
+    public Cursor searchAuthor(String search, String orderByColumn) {
+        try {
+            String sql = "SELECT * FROM " + TABLE + " WHERE ";
+            sql += "author1 LIKE '%" + search + "%' OR ";
+            sql += "author2 LIKE '%" + search + "%'";
+            sql += " ORDER BY " + orderByColumn;
+            Cursor cursor = Db.rawQuery(sql, null);
+            if (cursor != null) {
+                cursor.moveToNext();
+            }
+            return cursor;
+        } catch (SQLException mSQLException) {
+            Log.e(TAG, "getTestData >>" + mSQLException.toString());
+            throw mSQLException;
+        }
+    }
+    
     public Cursor getRow(String id) {
         String sql = "SELECT * FROM " + TABLE + " WHERE _id='" + id + "'";
         Cursor cursor = Db.rawQuery(sql, null);

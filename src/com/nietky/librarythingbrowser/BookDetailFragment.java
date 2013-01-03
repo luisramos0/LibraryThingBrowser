@@ -92,6 +92,19 @@ public class BookDetailFragment extends Fragment {
             author = author2;
         }
         author_view.setText(author);
+        author_view.setTag(author);
+        author_view.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                TextView self = (TextView) v;
+                String author = (String) self.getTag();
+//                Toast.makeText(getActivity(), tagTagText, 10).show();
+                Intent resultIntent = new Intent(getActivity(),
+                        BookListActivity.class);
+                resultIntent.putExtra("author1Name", author);
+                startActivity(resultIntent);
+            }
+        });
+        
 
         TextView publication_date_view = (TextView) rootView
                 .findViewById(R.id.book_detail_publication_date);

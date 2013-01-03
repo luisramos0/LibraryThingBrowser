@@ -7,7 +7,7 @@
         android:summaryOff="Unread books are not specially highlighted"
         android:enabled="true"
         android:key="highlight_unread"
-        android:title="Highlight unread books" />
+        android:title="Highlight unread books" />
     -->
 
     <CheckBoxPreference
@@ -17,11 +17,12 @@
         android:summaryOn="Searches include books&apos; publication details"
         android:title="Search publication details" />
 
-    <Preference
-        android:summary="Not affiliated with the LibraryThing website (http://www.librarything.com) in any way."
-        android:title="Version 1.0.5" />
-
-    <PreferenceCategory android:title="Attributions for included work" >
+    <PreferenceCategory android:title="About" >
+        <Preference
+            android:summary="Not affiliated with the LibraryThing website (http://www.librarything.com) in any way."
+            android:title="Version 1.1" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Attributions" >
         <Preference
             android:summary="Apache Licence 2.0"
             android:title="jCSV" />

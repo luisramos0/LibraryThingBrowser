@@ -59,6 +59,8 @@ public class BookListActivity extends FragmentActivity implements
             getBookList().loadTag(intent.getStringExtra("tagName"));
         } else if (intent.hasExtra("collectionName")) {
             getBookList().loadCollection(intent.getStringExtra("collectionName"));
+        } else if (intent.hasExtra("author1Name")) {
+            getBookList().loadAuthor(intent.getStringExtra("author1Name"));
         }
     }
 

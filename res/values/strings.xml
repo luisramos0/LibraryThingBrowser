@@ -11,5 +11,9 @@
     <string name="title_activity_collection_list">Collections</string>
     <string name="search_label">LibraryThing Browser</string>
     <string name="search_hint">Search books...</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_section2">Firstname Lastname</string>
+    <string name="title_section1">Lastname, firstname</string>
+    <string name="title_activity_author_list">Authors</string>
 
 </resources>

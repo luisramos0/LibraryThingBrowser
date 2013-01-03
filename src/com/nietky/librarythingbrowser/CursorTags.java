@@ -44,4 +44,19 @@ public class CursorTags {
         return collectionsArray;
     }
     
+    public static ArrayList<String> getAuthors1(Cursor cursor) {
+        ArrayList<String> authorsArray = new ArrayList<String>();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int authorsIndex = cursor.getColumnIndex("author1");
+            String author = cursor.getString(authorsIndex);
+            if (!authorsArray.contains(author) && author != "")
+                authorsArray.add(author);
+            cursor.moveToNext();
+        }
+        return authorsArray;
+    }
+    
+    
+    
 }
