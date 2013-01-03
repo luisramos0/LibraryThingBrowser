@@ -37,7 +37,7 @@ public class BookListFragment extends ListFragment implements
     private int mActivatedPosition = ListView.INVALID_POSITION;
     private Cursor cursor;
     private SimpleCursorAdapter adapter;
-    public String mCurFilter = "%";
+    public String searchFilter = "%";
     public String tagFilter = "%";
     public String collectionFilter = "%";
     private String tableName = "books";
@@ -79,8 +79,8 @@ public class BookListFragment extends ListFragment implements
         dbHelper.open();
 
         String columnName = "title";
-        cursor = dbHelper.searchAllCols(mCurFilter, columnName);
-        getActivity().setTitle(mCurFilter);
+        cursor = dbHelper.searchAllCols(searchFilter, columnName);
+        getActivity().setTitle(searchFilter);
         dbHelper.close();
 
         adapter = new SimpleCursorAdapter(getActivity(),
@@ -246,13 +246,13 @@ public class BookListFragment extends ListFragment implements
             return true;
         case R.id.menuTags:
             Intent intentTags = new Intent(getActivity(), TagListActivity.class);
-            intentTags.putExtra("searchFilter", mCurFilter);
+            intentTags.putExtra("searchFilter", searchFilter);
             intentTags.putExtra("tagFilter", tagFilter);
             startActivityForResult(intentTags, RESULT_TAG_SELECT);
             return true;
         case R.id.menuCollections:
             Intent intentCollections = new Intent(getActivity(), CollectionListActivity.class);
-            intentCollections.putExtra("searchFilter", mCurFilter);
+            intentCollections.putExtra("searchFilter", searchFilter);
             intentCollections.putExtra("tagFilter", tagFilter);
             startActivityForResult(intentCollections, RESULT_COLLECTION_SELECT);
             return true;
@@ -275,7 +275,7 @@ public class BookListFragment extends ListFragment implements
             Toast.makeText(getActivity(), "search terms cannot includes apostrophes yet.. sorry!", 7).show();
             newText = newText.replace("'", "");
         }
-        mCurFilter = !TextUtils.isEmpty(newText) ? newText : "%";
+        searchFilter = !TextUtils.isEmpty(newText) ? newText : "%";
         loadList();
         // getLoaderManager().restartLoader(0, null, this);
         return true;

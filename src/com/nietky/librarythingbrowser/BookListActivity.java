@@ -53,7 +53,7 @@ public class BookListActivity extends FragmentActivity implements
             importData();
         } else if (intent.getAction() == Intent.ACTION_SEARCH) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            getBookList().mCurFilter = query;
+            getBookList().searchFilter = query;
             getBookList().loadList();
         } else if (intent.hasExtra("tagName")) {
             getBookList().loadTag(intent.getStringExtra("tagName"));
