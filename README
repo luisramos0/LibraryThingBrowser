@@ -1,11 +1,10 @@
 LibraryThingBrowser
 
-A simple offline browser for LibraryThing users. You use it by exporting your
+An experimental simple offline browser for LibraryThing users. You use it by exporting your
 library from the LibraryThing website as a tab-delimited text file, and then
 loading that file with this program on your phone and tablet.
 
-It's not finished yet, see the to-do list:
-
+https://play.google.com/store/apps/details?id=com.nietky.librarythingbrowser
 https://github.com/nietky/LibraryThingBrowser/wiki/todo
 
 Released under the MIT Expat Licence.
