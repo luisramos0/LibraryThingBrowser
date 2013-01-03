@@ -203,15 +203,7 @@ public class BookListFragment extends ListFragment implements
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Place an action bar item for searching.
         getActivity().getMenuInflater().inflate(R.menu.options, menu);
-        // MenuItem item = menu.add("Search");
-        MenuItem item = menu.findItem(R.id.menuSearch);
-        // item.setIcon(android.R.drawable.ic_menu_search);
-        // item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        SearchView sv = new SearchView(getActivity());
-        sv.setOnQueryTextListener(this);
-        item.setActionView(sv);
         //
     }
 
