@@ -21,9 +21,9 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 public class BookListFragment extends ListFragment implements
         OnQueryTextListener {
@@ -37,9 +37,9 @@ public class BookListFragment extends ListFragment implements
     private int mActivatedPosition = ListView.INVALID_POSITION;
     private Cursor cursor;
     private SimpleCursorAdapter adapter;
-    private String mCurFilter = "%";
-    private String tagFilter = "%";
-    private String collectionFilter = "%";
+    public String mCurFilter = "%";
+    public String tagFilter = "%";
+    public String collectionFilter = "%";
     private String tableName = "books";
 
     private SharedPreferences sharedPref;

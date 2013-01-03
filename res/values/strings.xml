@@ -9,5 +9,7 @@
     <string name="title_activity_import_data">ImportData</string>
     <string name="title_activity_tag_list">Tags</string>
     <string name="title_activity_collection_list">Collections</string>
+    <string name="search_label">LibraryThing Browser</string>
+    <string name="search_hint">Search books...</string>
 
 </resources>

@@ -4,7 +4,7 @@
     android:versionCode="5"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="11" />
+    <uses-sdk android:minSdkVersion="4" />
 
     <application
         android:icon="@drawable/icon2"
@@ -16,6 +16,14 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <intent-filter android:label="LibraryThingBrowser import" >
                 <action android:name="android.intent.action.VIEW" />

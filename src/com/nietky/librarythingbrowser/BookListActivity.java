@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,6 +32,11 @@ public class BookListActivity extends FragmentActivity implements
     private InputStreamReader inputStreamReader = null;
     private static final String TAG = "BookListActivity";
 
+    public BookListFragment getBookList() {
+        return ((BookListFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.book_list));
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +51,14 @@ public class BookListActivity extends FragmentActivity implements
         intent = getIntent();
         if (intent.getAction() == Intent.ACTION_VIEW) {
             importData();
+        } else if (intent.getAction() == Intent.ACTION_SEARCH) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            getBookList().mCurFilter = query;
+            getBookList().loadList();
         } else if (intent.hasExtra("tagName")) {
-            ((BookListFragment) getSupportFragmentManager().findFragmentById(
-                    R.id.book_list)).loadTag(intent.getStringExtra("tagName"));
+            getBookList().loadTag(intent.getStringExtra("tagName"));
         } else if (intent.hasExtra("collectionName")) {
-            ((BookListFragment) getSupportFragmentManager().findFragmentById(
-                    R.id.book_list)).loadCollection(intent.getStringExtra("collectionName"));
+            getBookList().loadCollection(intent.getStringExtra("collectionName"));
         }
     }
 
@@ -130,8 +138,12 @@ public class BookListActivity extends FragmentActivity implements
             try {
                 for (int i = 0; i < csvData.size(); i++) {
                     String[] csvRow = csvData.get(i);
-                    dbHelper.addRow(Arrays.copyOfRange(csvRow, 0,
-                            csvRow.length - 1));
+                    String[] csvRowShort = new String[csvRow.length - 1];
+                    ArrayList<String> csvRowArray = new ArrayList<String>();
+                    for (int j = 0; j < (csvRowShort.length); j++) {
+                        csvRowShort[j] = csvRow[j];
+                    }
+                    dbHelper.addRow(csvRowShort);
                     dbHelper.Db.yieldIfContendedSafely();
                     dialog.setProgress(i);
                 }
