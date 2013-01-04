@@ -22,6 +22,10 @@
         android:showAsAction="ifRoom"
         android:title="Authors" />
     <item
+        android:id="@+id/menuImport"
+        android:showAsAction="ifRoom"
+        android:title="Import" />
+    <item
         android:id="@+id/menuPreferences"
         android:icon="@drawable/ic_menu_preferences"
         android:showAsAction="ifRoom"

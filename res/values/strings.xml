@@ -15,5 +15,6 @@
     <string name="title_section2">Firstname Lastname</string>
     <string name="title_section1">Lastname, firstname</string>
     <string name="title_activity_author_list">Authors</string>
+    <string name="title_activity_import">Import books automatically</string>
 
 </resources>

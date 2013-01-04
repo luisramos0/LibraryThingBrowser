@@ -233,9 +233,9 @@ public class BookListFragment extends ListFragment implements
         MenuItem item = menu.findItem(R.id.menuSearch);
         // item.setIcon(android.R.drawable.ic_menu_search);
         // item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        SearchView sv = new SearchView(getActivity());
-        sv.setOnQueryTextListener(this);
-        item.setActionView(sv);
+//        SearchView sv = new SearchView(getActivity());
+//        sv.setOnQueryTextListener(this);
+//        item.setActionView(sv);
         //
     }
 
@@ -283,6 +283,11 @@ public class BookListFragment extends ListFragment implements
             Intent intentAuthors = new Intent(getActivity(), AuthorListActivity.class);
             intentAuthors.putExtra("searchFilter", searchFilter);
             startActivity(intentAuthors);
+            return true;
+        case R.id.menuImport:
+            Intent intent = new Intent(getActivity(), ImportActivity.class);
+            startActivity(intent);
+            return true;    
         default:
             return false;
         }
