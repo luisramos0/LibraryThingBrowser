@@ -27,6 +27,7 @@ public class BookDetailActivity extends Activity {
     private Context context;
 
     private HashMap<String, String> fields;
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,7 +228,7 @@ public class BookDetailActivity extends Activity {
                 tvTag.measure(0, 0);
                 widthSoFar += tvTag.getMeasuredWidth() + left_right * 2;
 
-                if (widthSoFar >= maxWidth) {
+                if (widthSoFar >= maxWidth2) {
                     ll.addView(llAlso);
 
                     llAlso = new LinearLayout(this);

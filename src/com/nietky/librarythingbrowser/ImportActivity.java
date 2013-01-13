@@ -49,6 +49,7 @@ public class ImportActivity extends Activity {
     // usually, subclasses of AsyncTask are declared inside the activity class.
     // that way, you can easily modify the UI thread from here
     private class DownloadFile extends AsyncTask<String, Integer, String> {
+        @SuppressWarnings("unused")
         @Override
         protected String doInBackground(String... sUrl) {
             try {

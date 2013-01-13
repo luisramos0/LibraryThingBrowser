@@ -3,8 +3,6 @@ package com.nietky.librarythingbrowser;
 import java.util.ArrayList;
 
 import android.database.Cursor;
-import android.view.View;
-import android.widget.ListView;
 
 public class CursorTags {
 

@@ -17,6 +17,7 @@ public class DbHelperNew extends SQLiteOpenHelper {
     private static String DATABASE_PATH = "";
     public static SQLiteDatabase Db;
     private static String TABLE = "books";
+    @SuppressWarnings("unused")
     private static Context context;
     private static final String[] KEYS = { "book_id", "title", "author1",
             "author2", "author_other", "publication", "date", "ISBNs",
@@ -64,6 +65,7 @@ public class DbHelperNew extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    @SuppressWarnings("unused")
     public boolean open() throws SQLException {
         String path = DATABASE_PATH + DATABASE_NAME;
         Db = this.getWritableDatabase();

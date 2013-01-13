@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -31,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,25 +41,23 @@ import com.googlecode.jcsv.reader.internal.CSVReaderBuilder;
 
 public class BookListActivity extends ListActivity implements OnQueryTextListener {
 
-    private boolean mTwoPane;
     private static Intent intent;
     public static final String MESSAGE_TABLE_NAME = "com.nietky.librarythingbrowser.TABLE_NAME";
     private InputStreamReader inputStreamReader = null;
     private static final String TAG = "BookListActivity";
 
-    private static final String STATE_ACTIVATED_POSITION = "activated_position";
     public static final int RESULT_TAG_SELECT = 1;
     public static final int RESULT_COLLECTION_SELECT = 2;
 
-    private int mActivatedPosition = ListView.INVALID_POSITION;
     private Cursor cursor;
     private BookListCursorAdapter adapter;
     public String searchFilter = "%";
     public String tagFilter = "%";
     public String collectionFilter = "%";
-    private String tableName = "books";
 
+    @SuppressWarnings("unused")
     private SharedPreferences sharedPref;
+    @SuppressWarnings("unused")
     private SharedPreferences.Editor prefsEdit;
 
     @Override
@@ -111,7 +107,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
             Toast.makeText(
                     this,
                     "filtering by terms including apostrophes is not supported yet.. sorry!",
-                    7).show();
+                    Toast.LENGTH_SHORT).show();
             return;
         }
         DbHelperNew dbHelper = new DbHelperNew(this.getApplicationContext());
@@ -132,7 +128,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
             Toast.makeText(
                     this,
                     "filtering by terms including apostrophes is not supported yet.. sorry!",
-                    7).show();
+                    Toast.LENGTH_SHORT).show();
             return;
         }
         DbHelperNew dbHelper = new DbHelperNew(this.getApplicationContext());
@@ -152,7 +148,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
             Toast.makeText(
                     this,
                     "filtering by terms including apostrophes is not supported yet.. sorry!",
-                    7).show();
+                    Toast.LENGTH_SHORT).show();
             return;
         }
         DbHelperNew dbHelper = new DbHelperNew(this.getApplicationContext());
@@ -167,6 +163,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
         setListAdapter(adapter);
     }
 
+    @SuppressWarnings("unchecked")
     public void importData() {
         Uri uri = intent.getData();
         Log.d(TAG, "Intent contains uri=" + uri);
@@ -231,6 +228,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
             dialog.show();
         }
 
+        @SuppressWarnings("static-access")
         @Override
         protected String doInBackground(List<String[]>... csvDatas) {
             List<String[]> csvData = csvDatas[0];
@@ -244,7 +242,6 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
                 for (int i = 0; i < csvData.size(); i++) {
                     String[] csvRow = csvData.get(i);
                     String[] csvRowShort = new String[csvRow.length - 1];
-                    ArrayList<String> csvRowArray = new ArrayList<String>();
                     for (int j = 0; j < (csvRowShort.length); j++) {
                         csvRowShort[j] = csvRow[j];
                     }
@@ -279,6 +276,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
         startActivity(detailIntent);
     }
 
+    @SuppressWarnings("unused")
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Place an action bar item for searching.
         this.getMenuInflater().inflate(R.menu.options, menu);
@@ -292,6 +290,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
         //
     }
 
+    @SuppressWarnings("unused")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -302,7 +301,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
             this.onSearchRequested();
             return true;
         case R.id.menuDelete:
-            AlertDialog show = new AlertDialog.Builder(this)
+            AlertDialog dialog = new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Delete books")
                     .setMessage(
@@ -357,7 +356,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
         // with this filter.
         if (newText.contains("'")) {
             Toast.makeText(this,
-                    "search terms cannot includes apostrophes yet.. sorry!", 7)
+                    "search terms cannot includes apostrophes yet.. sorry!", Toast.LENGTH_SHORT)
                     .show();
             newText = newText.replace("'", "");
         }
@@ -375,6 +374,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
     public class BookListCursorAdapter extends CursorAdapter {
         LayoutInflater inflater;
 
+        @SuppressWarnings("deprecation")
         public BookListCursorAdapter(Context context, Cursor c) {
             super(context, c);
             inflater = LayoutInflater.from(context);
