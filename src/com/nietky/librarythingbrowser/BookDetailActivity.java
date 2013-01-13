@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -16,7 +17,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout.LayoutParams;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class BookDetailActivity extends Activity {
@@ -69,6 +70,19 @@ public class BookDetailActivity extends Activity {
 
         TextView title_view = (TextView) findViewById(R.id.book_detail_title);
         title_view.setText(fields.get("title"));
+        
+        String ISBN = fields.get("ISBNs").replace('[', ' ').replace(']', ' ');
+        ISBN = ISBN.trim();
+        if (ISBN.length() > 0) {
+            final String ISBNURL = "http://www.librarything.com/isbn/" + ISBN;
+            title_view.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(ISBNURL));
+                    startActivity(intent);
+                }
+            });
+        }
 
         TextView author_view = (TextView) findViewById(R.id.book_detail_author);
         String author;
