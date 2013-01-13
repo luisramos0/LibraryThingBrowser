@@ -24,7 +24,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -277,9 +276,9 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
         startActivity(detailIntent);
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Place an action bar item for searching.
-        inflater.inflate(R.menu.options, menu);
+        getMenuInflater().inflate(R.menu.options, menu);
         // MenuItem item = menu.add("Search");
         MenuItem item = menu.findItem(R.id.menuSearch);
         // item.setIcon(android.R.drawable.ic_menu_search);
@@ -288,6 +287,7 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
         sv.setOnQueryTextListener(this);
         item.setActionView(sv);
         //
+        return true;
     }
 
     @SuppressWarnings("unused")
