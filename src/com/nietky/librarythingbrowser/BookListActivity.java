@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -276,17 +277,16 @@ public class BookListActivity extends ListActivity implements OnQueryTextListene
         startActivity(detailIntent);
     }
 
-    @SuppressWarnings("unused")
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Place an action bar item for searching.
-        this.getMenuInflater().inflate(R.menu.options, menu);
+        inflater.inflate(R.menu.options, menu);
         // MenuItem item = menu.add("Search");
         MenuItem item = menu.findItem(R.id.menuSearch);
         // item.setIcon(android.R.drawable.ic_menu_search);
         // item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-//        SearchView sv = new SearchView(this);
-//        sv.setOnQueryTextListener(this);
-//        item.setActionView(sv);
+        SearchView sv = new SearchView(this);
+        sv.setOnQueryTextListener(this);
+        item.setActionView(sv);
         //
     }
 
